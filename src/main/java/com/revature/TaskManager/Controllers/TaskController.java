@@ -7,6 +7,7 @@ import com.revature.TaskManager.Exceptions.ExceptionResponse;
 import com.revature.TaskManager.Exceptions.TaskNotFoundException;
 import com.revature.TaskManager.Exceptions.UnauthorizedException;
 import com.revature.TaskManager.Services.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Objects;
 
 @RestController
 public class TaskController {
@@ -27,7 +30,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<Void> createTask(@RequestBody Task task) {
+    public ResponseEntity<Void> createTask(@Valid @RequestBody Task task) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
@@ -58,7 +61,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks/{id}")
-    public ResponseEntity<Void> updateTaskById(@PathVariable Long id, @RequestBody Task task) {
+    public ResponseEntity<Void> updateTaskById(@PathVariable Long id, @Valid @RequestBody Task task) {
         task.setId(id);
         taskService.updateTaskById(task);
         return ResponseEntity.noContent().build();
@@ -78,6 +81,12 @@ public class TaskController {
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleBadRequest(Exception exception) {
         ExceptionResponse response = new ExceptionResponse(exception.getMessage(), new Date());
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleValidation(MethodArgumentNotValidException exception) {
+        ExceptionResponse response = new ExceptionResponse(Objects.requireNonNull(exception.getFieldError()).getDefaultMessage(), new Date());
         return ResponseEntity.badRequest().body(response);
     }
 }

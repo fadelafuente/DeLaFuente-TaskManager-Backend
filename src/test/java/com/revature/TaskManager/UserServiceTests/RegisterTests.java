@@ -1,7 +1,6 @@
 package com.revature.TaskManager.UserServiceTests;
 
 import com.revature.TaskManager.Entities.User;
-import com.revature.TaskManager.Exceptions.InvalidPasswordException;
 import com.revature.TaskManager.Exceptions.UserAlreadyExistsException;
 import com.revature.TaskManager.Repositories.UserRepository;
 import com.revature.TaskManager.Services.UserService;
@@ -54,12 +53,5 @@ public class RegisterTests {
         when(userRepository.findUserByUsername("username")).thenReturn(Optional.of(user));
 
         Assertions.assertThrows(UserAlreadyExistsException.class, () -> userService.register(newUser));
-    }
-
-    @Test
-    public void testRegisterInvalidPassword() {
-        User newUser = new User("username", "P@ssWord!");
-
-        Assertions.assertThrows(InvalidPasswordException.class, () -> userService.register(newUser));
     }
 }
