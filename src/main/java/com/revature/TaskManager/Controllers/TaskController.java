@@ -57,13 +57,13 @@ public class TaskController {
     public ResponseEntity<Void> updateTaskById(@PathVariable Long id, @RequestBody Task task) {
         task.setId(id);
         taskService.updateTaskById(task);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<Void> deleteTaskById(@PathVariable Long id) {
         taskService.deleteTaskById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(UnauthorizedException.class)
