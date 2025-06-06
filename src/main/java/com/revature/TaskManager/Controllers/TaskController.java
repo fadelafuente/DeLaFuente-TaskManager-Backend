@@ -7,6 +7,8 @@ import com.revature.TaskManager.Exceptions.ExceptionResponse;
 import com.revature.TaskManager.Exceptions.TaskNotFoundException;
 import com.revature.TaskManager.Exceptions.UnauthorizedException;
 import com.revature.TaskManager.Services.TaskService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 
 @RestController
 public class TaskController {
@@ -45,8 +46,8 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<UsersTask>> getTasks() {
-        List<UsersTask> tasks = taskService.getTasks();
+    public ResponseEntity<Page<UsersTask>> getTasks(Pageable page) {
+        Page<UsersTask> tasks = taskService.getTasks(page);
         return ResponseEntity.ok(tasks);
     }
 

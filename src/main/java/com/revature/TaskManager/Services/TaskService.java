@@ -5,10 +5,11 @@ import com.revature.TaskManager.Entities.UsersTask;
 import com.revature.TaskManager.Exceptions.TaskNotFoundException;
 import com.revature.TaskManager.Repositories.TaskRepository;
 import com.revature.TaskManager.Repositories.UsersTaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Service
 public class TaskService {
@@ -29,8 +30,8 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<UsersTask> getTasks() {
-        return usersTaskRepository.findAll();
+    public Page<UsersTask> getTasks(Pageable page) {
+        return usersTaskRepository.findAll(page);
     }
 
     public UsersTask getTaskById(Long id) {
