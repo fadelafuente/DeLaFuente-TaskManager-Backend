@@ -15,7 +15,8 @@ import java.time.ZonedDateTime;
 @Table(name = "task")
 public class UsersTask {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_generator")
+    @SequenceGenerator(name = "task_generator", sequenceName = "task_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne

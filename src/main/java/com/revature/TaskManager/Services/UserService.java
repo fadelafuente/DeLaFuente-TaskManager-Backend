@@ -24,7 +24,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void register(User newUser) {
+    public User register(User newUser) {
         validatePassword(newUser.getPassword());
 
         Optional<User> user = userRepository.findUserByUsername(newUser.getUsername());
@@ -33,7 +33,7 @@ public class UserService {
         }
 
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        userRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 
     public void validatePassword(String password) {
