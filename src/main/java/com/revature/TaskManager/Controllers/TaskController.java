@@ -3,6 +3,8 @@ package com.revature.TaskManager.Controllers;
 import com.revature.TaskManager.Entities.Task;
 import com.revature.TaskManager.Entities.TaskManagerUserDetails;
 import com.revature.TaskManager.Entities.UsersTask;
+import com.revature.TaskManager.Exceptions.ExceptionResponse;
+import com.revature.TaskManager.Exceptions.TaskNotFoundException;
 import com.revature.TaskManager.Exceptions.UnauthorizedException;
 import com.revature.TaskManager.Services.TaskService;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -69,5 +72,11 @@ public class TaskController {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Void> handleUnauthorized() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleBadRequest(Exception exception) {
+        ExceptionResponse response = new ExceptionResponse(exception.getMessage(), new Date());
+        return ResponseEntity.badRequest().body(response);
     }
 }

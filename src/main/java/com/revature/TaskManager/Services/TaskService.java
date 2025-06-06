@@ -39,6 +39,9 @@ public class TaskService {
     }
 
     public void updateTaskById(Task task) {
+        taskRepository.findById(task.getId()).orElseThrow(() ->
+                new TaskNotFoundException("Task with id not found: " + task.getId()));
+
         taskRepository.save(task);
     }
 

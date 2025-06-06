@@ -16,6 +16,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(updatable = false)
     private Long creator_id;
 
     @Enumerated(EnumType.STRING)
