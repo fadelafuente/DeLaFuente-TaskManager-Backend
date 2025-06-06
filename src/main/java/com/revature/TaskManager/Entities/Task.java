@@ -3,6 +3,7 @@ package com.revature.TaskManager.Entities;
 import com.revature.TaskManager.Enums.Status;
 import com.revature.TaskManager.Enums.Type;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.time.ZonedDateTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Task {
     @Id
@@ -33,4 +35,27 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public Task(Long creator_id, Type type, String description, ZonedDateTime dateCreated, Status status) {
+        this.creator_id = creator_id;
+        this.type = type;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.status = status;
+    }
+
+    public Task(Long creator_id, Type type, String description, Status status) {
+        this.creator_id = creator_id;
+        this.type = type;
+        this.description = description;
+        this.status = status;
+    }
+
+    public Task(Long id, Long creator_id, Type type, String description, Status status) {
+        this.id = id;
+        this.creator_id = creator_id;
+        this.type = type;
+        this.description = description;
+        this.status = status;
+    }
 }

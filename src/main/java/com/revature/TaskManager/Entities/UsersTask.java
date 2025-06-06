@@ -36,4 +36,12 @@ public class UsersTask {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public UsersTask(Long id, Type type, String description, ZonedDateTime dateCreated, Status status) {
+        this.id = id;
+        this.type = type;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.status = status;
+    }
 }

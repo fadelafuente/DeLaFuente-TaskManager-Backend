@@ -21,12 +21,12 @@ public class TaskService {
         this.usersTaskRepository = usersTaskRepository;
     }
 
-    public void createTask(Task task) {
+    public Task createTask(Task task) {
         if(task.getDateCreated() == null) {
             task.setDateCreated(ZonedDateTime.now());
         }
 
-        taskRepository.save(task);
+        return taskRepository.save(task);
     }
 
     public List<UsersTask> getTasks() {
@@ -38,11 +38,11 @@ public class TaskService {
                 new TaskNotFoundException("Task with id not found: " + id));
     }
 
-    public void updateTaskById(Task task) {
+    public Task updateTaskById(Task task) {
         taskRepository.findById(task.getId()).orElseThrow(() ->
                 new TaskNotFoundException("Task with id not found: " + task.getId()));
 
-        taskRepository.save(task);
+        return taskRepository.save(task);
     }
 
     public void deleteTaskById(Long id) {
