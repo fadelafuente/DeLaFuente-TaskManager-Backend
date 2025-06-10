@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class TaskController {
     private final TaskService taskService;
 
